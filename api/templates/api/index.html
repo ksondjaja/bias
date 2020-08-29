@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    </head>
+    <body>
+        <form action="{% url 'lookup' %}" method="post">
+            {% csrf_token %}
+            <input type="text"  name="news">
+            <button>Submit</button>
+        </form>
+        <br>
+        <div>
+            <b>URL:</b> {{ url }}
+        </div>
+        <div>
+            <b>Author:</b> {{ author }}<br>
+            <b>Title:</b> {{ title }}<br>
+            <b>Content:</b> {{ content }}
+        </div>
+    </body>
+</html>
