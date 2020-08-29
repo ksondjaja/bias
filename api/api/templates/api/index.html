@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bias index</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'api/thing.css' %}">
+</head>
+<body>
+	<div id="header">
+		<h1 id='mainH'>
+			BIAS INDEX
+		</h1>
+		<h4 id='subH'>
+			Enter the url of a news article to check how biased it is
+		</h4>
+	</div>
+	
+	<div class="center">
+		<div>
+			<form action="{% url 'lookup' %}" method="post" id="urlform">
+				{% csrf_token %}
+				<input type="text" name="news" id="url" placeholder="Enter News Article URL">
+				<input type="submit" name="submit">
+			</form>
+		</div>
+	</div>
+	
+</body>
+</html>
