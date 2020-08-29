@@ -18,9 +18,7 @@ def lookup(request):
         if article.is_valid():
             news = article.cleaned_data["news"]
             output = util.getStuff(news)
-            return render (request, "api/source.html",{
-                "url": news,
-                "author": output[0],
-                "title": output[1],
-                "content": output[2]
+            score = util.getBiasIndex(news)
+            return render (request, "api/bias.html",{
+                "score": score
             })
