@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import re
 import nltk
 nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger', 'html.parser')
+nltk.download('averaged_perceptron_tagger')
 import json
 import csv
 import os
@@ -13,7 +13,7 @@ import re
 def getStuff(url):
     stuff = []
     try:
-        soup = BeautifulSoup(urlopen(url))
+        soup = BeautifulSoup(urlopen(url), 'html.parser')
     except:
         return ["error", "error", "error"]
     try:
