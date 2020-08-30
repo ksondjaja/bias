@@ -21,7 +21,7 @@ def getStuff(url):
     except:
         stuff.append("no author")
     stuff.append(soup.find("head").find("title").text)
-    try:
+    """try:
         stuff.append(soup.find('article').text)
     except:
         try:
@@ -29,9 +29,13 @@ def getStuff(url):
         except:
             try:
                 stuff.append(soup.find(attrs={"class": re.compile(".body")}).text)
-            except:
+            except:"""
+    #placeholders, dont want to backspace that many times
+    if 1:
+        if 1:
+            if 1:
                 try:
-                    stuff.append("boo\n")
+                    
                     paragraphs = soup.find_all("p")
                     textList = []
                     for p in paragraphs:
