@@ -81,6 +81,7 @@ def getKeywordsIndex(text):
     score = 0
 
     test = nltk.word_tokenize(text)
+    
     result = nltk.pos_tag(test)
 
     #print(result)
@@ -94,9 +95,11 @@ def getKeywordsIndex(text):
 
         # if the word is '?' or '!', it is likely to come from a single person's narrative. 
         if (i[0] == '!' or i[1] == '?'):
-            count += 10
+            count += 3
             continue
-        
+
+        total += 1
+
         # We count numarical values. 
         if (i[1] == "CD"):
             num += 1
@@ -111,8 +114,6 @@ def getKeywordsIndex(text):
             count += 1
             continue
 
-        total += 1
-        
     print("count = ", count, ". num = ", num, ". length = ", total)
 
     score = 100 - ((count - num) * 3 / total) * 100
@@ -132,7 +133,7 @@ def getAuthorAuthority(name, keywordsIndex):
     author = name.split()
 
     userhome = os.path.expanduser('~')
-    filePath = '/static/api/documents/'
+    filePath = userhome + r'/Desktop/hackathon/'
     fileName = 'Names.csv'
 
     reader = openCSV(filePath + fileName) #open the CSV file
