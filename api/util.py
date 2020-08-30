@@ -198,7 +198,7 @@ def removeNoice(text):
     #print(text)
 
     text = text.rstrip()
-    #text = re.sub(r'''(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''', " ", text)
+    text = re.sub(r'''(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''', " ", text)
     text = re.sub(r"[^a-zA-Z0-9\!\?]+", ' ', text)
     #text = text.replace('<', '').replace('>', '').replace('/', '').replace('+', '').replace('=', '').replace('-', '').replace('_', '').replace('@', '').replace('%', '').replace('^', '').replace('\'', '').replace(';', '').replace(':', '').replace('(', '').replace(')', '')
     #print(text)
