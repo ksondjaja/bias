@@ -36,7 +36,7 @@ def getStuff(url):
             if 1:
                 try:
                     
-                    paragraphs = soup.find_all("p")
+                    paragraphs = soup.find_all(["p", "div"])
                     textList = []
                     for p in paragraphs:
                         textList.append(p.text)
