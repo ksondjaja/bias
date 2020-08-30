@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import re
 import nltk
 nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
+nltk.download('averaged_perceptron_tagger', 'html.parser')
 import json
 import csv
 import os
