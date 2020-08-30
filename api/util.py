@@ -133,7 +133,7 @@ def getAuthorAuthority(name, keywordsIndex):
     author = name.split()
 
     userhome = os.path.expanduser('~')
-    filePath = userhome + r'/Desktop/hackathon/'
+    filePath = '/static/api/documents/'
     fileName = 'Names.csv'
 
     reader = openCSV(filePath + fileName) #open the CSV file
