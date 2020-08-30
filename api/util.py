@@ -3,6 +3,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
 import nltk
+nltk.download('punkt')
 import json
 import csv
 import os
