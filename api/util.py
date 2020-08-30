@@ -12,8 +12,10 @@ import re
 
 def getStuff(url):
     stuff = []
-    #url = input("Please enter a valid URL: ")
-    soup = BeautifulSoup(urlopen(url))
+    try:
+        soup = BeautifulSoup(urlopen(url))
+    except:
+        return ["error", "error", "error"]
     
     try:
         stuff.append(soup.find(attrs={"class": re.compile(".author")}).text)
