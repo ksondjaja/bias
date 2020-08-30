@@ -48,24 +48,29 @@ def getStuff(url):
 
 """
 getBiasIndex(url)
-input:  url: a url link
+input:  url: a url link, must be a string. 
 Output: an integer represents its bias index. 
 """
 def getBiasIndex(url):
+    # Use getStuff() function to extract the content of the url. 
     text = getStuff(url)
+
     author = text[0]
     headline = text[1]
-    content = text[2]
+    content = removeNoice(text[2])
 
+    # calculating the score of each category. 
     headlineKeywordsScore = getKeywordsIndex(headline)
     contentKeywordsScore = getKeywordsIndex(content)
     
-    keywordsScore = headlineKeywordsScore * 0.1 + contentKeywordsScore * 0.8
+    keywordsScore = headlineKeywordsScore * 0.1 + contentKeywordsScore * 0.9
     authorScore = getAuthorAuthority(author, keywordsScore)
 
     biasIndex = headlineKeywordsScore * 0.2 + contentKeywordsScore * 0.6 + authorScore * 0.2
 
+    # return the keyword score. 
     return biasIndex
+
 
 """
 getKeywordsIndex(text)
@@ -78,12 +83,39 @@ def getKeywordsIndex(text):
     test = nltk.word_tokenize(text)
     result = nltk.pos_tag(test)
 
-    count = 0
-    for i in result:
-        if i[1] == "JJ":
-            count += 1
+    #print(result)
 
-    score = 100 - (count * 3 / len(result)) * 100
+    total = 0
+    count = 0
+    num = 0
+
+    for i in result:
+        #print(i)
+
+        # if the word is '?' or '!', it is likely to come from a single person's narrative. 
+        if (i[0] == '!' or i[1] == '?'):
+            count += 10
+            continue
+        
+        # We count numarical values. 
+        if (i[1] == "CD"):
+            num += 1
+            continue
+        
+        # Count the numbers of words that appear to be coming from a person's narrative. 
+        word = i[0].lower()
+        if (word == "so" or word == "us" or word == "i" or word == "we" or word == 'me'):
+            count += 1
+            continue
+        if (i[1] == "JJ" or i[1] == "ADJ"): 
+            count += 1
+            continue
+
+        total += 1
+        
+    print("count = ", count, ". num = ", num, ". length = ", total)
+
+    score = 100 - ((count - num) * 3 / total) * 100
     return score
 
 
@@ -103,8 +135,7 @@ def getAuthorAuthority(name, keywordsIndex):
     filePath = '/static/api/documents/'
     fileName = 'Names.csv'
 
-    #reader = openCSV(filePath + fileName) #open the CSV file
-    reader = openCSV(filePath+fileName)
+    reader = openCSV(filePath + fileName) #open the CSV file
     author_list = []
 
     for line in reader:
@@ -123,7 +154,7 @@ def getAuthorAuthority(name, keywordsIndex):
     # if we didn't find the author
     new_author = {'FirstName': author[0], 'LastName': author[1], 'Authority': keywordsIndex}
     author_list.append(new_author)
-    saveCSV('C:/Users/sondj/OneDrive/Documents/hackathon/bias/api/static/documents/Names.csv', author_list) 
+    saveCSV(filePath + fileName, author_list) 
     return keywordsIndex 
 
 
@@ -158,41 +189,18 @@ def saveCSV(path, author_list):
         
 
 """
-getCleanText(text)
+removeNoice(text)
 Input:  text: a string
 Output: a string where invalid characters are removed. 
 """
-def getCleanText(text):
-    text = text.rstrip("\n")
+def removeNoice(text):
+    # remove all the useless characters. 
+    #print(text)
+
+    text = text.rstrip()
+    #text = re.sub(r'''(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''', " ", text)
+    text = re.sub(r"[^a-zA-Z0-9\!\?]+", ' ', text)
+    #text = text.replace('<', '').replace('>', '').replace('/', '').replace('+', '').replace('=', '').replace('-', '').replace('_', '').replace('@', '').replace('%', '').replace('^', '').replace('\'', '').replace(';', '').replace(':', '').replace('(', '').replace(')', '')
+    #print(text)
+
     return text
-
-
-# This is the test code. 
-def test():
-
-    print("The bias score range from 0 to 100.")
-    print("0 means completly biased. 100 means completly unbiased.")
-
-    # Test Code 1 -------------------------------------------------
-    text = getStuff("https://www.vox.com/2020-presidential-election/2020/8/25/21400795/rnc-2020-andrew-pollack-parkland-shooting-restorative-justice")
-    author = text[0]
-    headline = text[1]
-    content = text[2]
-    BiasScore = getBiasIndex("https://www.vox.com/2020-presidential-election/2020/8/25/21400795/rnc-2020-andrew-pollack-parkland-shooting-restorative-justice")
-
-    # print(content)
-
-    print("The bias Score of", author, "is: ", BiasScore)
-
-    # Test Code 2 -----------------------------------------------
-    """
-    author = "Soros Wen"
-    headline = "How Smart People Deal With People They Don’t Like"
-    content = "However, we don’t live in a perfect world. Some people drive us crazy, and we (admittedly) drive a few mad as well. Those we dislike are inconsiderate, rushed, malign our character, question our motives, or just don’t get our jokes at all — but expect us to laugh at all theirs."
-    BiasScore = getBiasIndex(headline, content, author)
-
-    print("The bias Score of", author, "is: ", BiasScore)
-    """
-
-#if __name__=="__main__":
-#    print(default_storage)
