@@ -22,10 +22,14 @@ def lookup(request):
             output = util.getStuff(news)
             score = util.getBiasIndex(news)
             if len(output)==3:
-                return render (request, "api/bias.html",{
+                return render(request, "api/bias.html",{
                     "author": output[0],
                     "title": output[1],
                     "text": output[2],
                     "news": news,
                     "score": score
+                })
+            else:
+                return render(request,"api/bias.html",{
+                    "message": "News article is invalid or cannot be read"
                 })

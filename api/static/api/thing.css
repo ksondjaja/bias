@@ -74,8 +74,8 @@ input[type="text"]::-ms-input-placeholder {
 	left: 20%;
 	right: 20%;
 	bottom: 0;
-	position: fixed;
 	text-align: center;
+	position: fixed;
 	padding-bottom: 15px;
 }
 
@@ -106,4 +106,8 @@ input[type="text"]::-ms-input-placeholder {
 #index{
 	text-align: center;
 
+}
+#newstext{
+	height: 100px;
+	overflow: auto;
 }
