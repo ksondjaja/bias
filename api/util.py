@@ -31,18 +31,18 @@ def getStuff(url):
                 stuff.append(soup.find(attrs={"class": re.compile(".body")}).text)
             except:"""
     #placeholders, dont want to backspace that many times
-    if 1:
-        if 1:
-            if 1:
-                try:
+
+    try:
                     
-                    paragraphs = soup.find_all(["p", "div"])
-                    textList = []
-                    for p in paragraphs:
-                        textList.append(p.text)
-                    stuff.append(" ".join(textList))
-                except:
-                    stuff.append("error")
+        paragraphs = soup.find_all(["p", "div"])
+                    
+                
+        textList = []
+        for p in paragraphs:
+            textList.append(p.text)
+        stuff.append(" ".join(textList))
+    except:
+        stuff.append("error")
     return stuff
 
 
@@ -133,7 +133,7 @@ def getAuthorAuthority(name, keywordsIndex):
     author = name.split()
 
     userhome = os.path.expanduser('~')
-    filePath = '/static/api/documents/'
+    filePath = userhome + r'/Desktop/hackathon/'
     fileName = 'Names.csv'
 
     reader = openCSV(filePath + fileName) #open the CSV file
